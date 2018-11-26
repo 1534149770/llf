@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+	<!-- 根据用户名密码查用户 -->
+	<select id="selectUserByUsernamePassword" resultType="com.baizhi.entity.User">
+		select id,username,password from last_user where username = ${username} and password = ${password}
+	</select>
+	
+	<!-- 增 -->
+	<insert id="insertOne">
+		insert into last_user(phoneNum,username,password,salt,dharmaName,sex,sign,profile,province,city,status,registerTime) values(#{phoneNum},#{username},#{password},#{salt},#{dharmaName},#{sex},#{sign},#{profile},#{province},#{city},#{status},now())
+	</insert>
+
+	<!--查所有-->
+	<select id="selectAll" resultType="com.baizhi.entity.User">
+		select id,phoneNum,username,password,sex,dharmaName,salt,sign,profile,province,city,status from last_user
+	</select>
+</mapper>

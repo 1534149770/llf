@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.TypeDao">
+	<resultMap type="com.baizhi.entity.Type" id="typeQueryAll">
+		<id property="id" column="l1id"/>
+		<result property="title" column="l1title"/>
+		<result property="url" column="l1url"/>
+		<result property="iconCls" column="l1pic"/>
+		<result property="parent_id" column="l1pid"/>
+		<collection property="types" ofType="com.baizhi.entity.Type">
+			<id property="id" column="l2id"/>
+			<result property="title" column="l2title"/>
+			<result property="url" column="l2url"/>
+			<result property="iconCls" column="l2pic"/>
+			<result property="parent_id" column="l2fid"/>
+		</collection>
+	</resultMap>
+
+  	<!-- 查所有 -->
+  	<select id="selectAll" resultMap="typeQueryAll">
+  		select 
+  		l1.id as l1id,
+  		l1.title as l1title,
+  		l1.url as l1url,
+  		l1.iconCls as l1pic,
+  		l1.parent_id as l1pid,
+  		l2.id as l2id,
+  		l2.title as l2title,
+  		l2.url as l2url,
+  		l2.iconCls as l2pic,
+  		l2.parent_id as l2pid
+		from last_menu l1 inner join last_menu l2
+		on l1.id = l2.parent_id
+  	</select>
+</mapper>

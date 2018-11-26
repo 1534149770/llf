@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+	<resultMap type="com.baizhi.entity.Album" id="selectALbumByPage">
+		<id property="id" column="aid" />
+		<result property="title" column="atitle" />
+		<result property="cover" column="acover" />
+		<result property="count" column="acount" />
+		<result property="autor" column="aautor" />
+		<result property="broadCast" column="abroadCast" />
+		<result property="publishDate" column="apublishDate" />
+		<result property="brief" column="abrief" />
+		<result property="score" column="ascore" />
+		<collection property="children" ofType="com.baizhi.entity.Chapter">
+			<id property="id" column="cid"/>
+			<result property="title" column="ctitle"/>
+			<result property="size" column="csize"/>
+			<result property="duration" column="cduration"/>
+			<result property="downloadPath" column="cdownloadPath"/>
+			<result property="uploadDate" column="cuploadDate"/>
+			<result property="album_id" column="calbum_id"/>
+		</collection>
+	</resultMap>
+
+	<!-- 查总数 -->
+	<select id="selectTotalCount" resultType="int">
+		select count(*) from last_album
+	</select>
+	
+	<!-- 分页查全部 -->
+	<select id="selectAllByPage" resultMap="selectALbumByPage">
+		select cid,ctitle ,csize,cduration,cdownloadPath,cuploadDate,calbum_id,aid ,atitle ,acover,acount,aautor,abroadCast,apublishDate,abrief,ascore			
+		from(
+			select lc.id cid,lc.title ctitle,lc.size csize,lc.duration cduration,lc.downloadPath cdownloadPath,lc.uploadDate cuploadDate,lc.album_id calbum_id,la.id aid,la.title atitle,la.cover acover,la.count acount,la.autor aautor,la.broadCast abroadCast,la.publishDate apublishDate,la.brief abrief,la.score ascore
+			from last_chapter lc join last_album la			
+			on lc.album_id = la.id
+			order by lc.id desc
+		)s1
+
+	</select>
+	
+	<!-- 添加专辑 -->
+	<insert id="insertOne">
+		insert into last_album(title,cover,count,autor,broadCast,publishDate,brief,score) values(#{title},#{cover},#{count},#{autor},#{broadCast},now(),#{brief},#{score})
+	</insert>
+	
+	<!-- 查全部 -->
+	<select id="selectAll" resultType="com.baizhi.entity.Album">
+		select * from last_album
+	</select>
+	
+	<!-- 查数量 -->
+	<select id="selectAlbumCount" resultType="int">
+		select count(*) 
+		from last_chapter lc join last_album la			
+		on lc.album_id = la.id
+		where la.id = #{id}
+	</select>
+</mapper>
