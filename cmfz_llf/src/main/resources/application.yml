@@ -1,0 +1,31 @@
+#配置服务器相关参数
+server:
+  port: 8888
+  jsp-servlet:
+    init-parameters:
+      development: true
+spring:
+  #配置视图解析器
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  #中文乱码处理
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+  #选择子配置文件
+  profiles:
+    active: cs
+  #数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 123
+    url: jdbc:mysql://192.168.0.137:3306/llf_mysql
+    driver-class-name: com.mysql.jdbc.Driver
+#mybatis
+mybatis:
+  mapper-locations: classpath:com/baizhi/mapper/*.xml
+  type-aliases-package: com.baizhi.entity

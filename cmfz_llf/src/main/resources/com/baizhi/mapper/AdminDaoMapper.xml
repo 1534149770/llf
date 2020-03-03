@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AdminDao">
+	<!-- 根据用户名密码查用户 -->
+	<select id="selectAdminByUsernamePassword" resultType="com.baizhi.entity.Admin">
+		select id,username,password from last_admin where username = #{username} and password = #{password}
+	</select>
+	
+	<!-- 修改密码 -->
+	<update id="updateOne">
+		update last_admin set password = #{password} where id = #{id}
+	</update>
+</mapper>
